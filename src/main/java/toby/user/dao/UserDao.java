@@ -5,14 +5,14 @@ import toby.user.domain.User;
 import java.sql.*;
 
 public class UserDao {
-    private SimpleConnectionMaker simpleConnectionMaker;
+    private ConnectionMaker connectionMaker;
 
     public UserDao() {
-        simpleConnectionMaker = new SimpleConnectionMaker();
+        connectionMaker = new DConnectionMaker();
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         // 2. SQL을 담은 Statement(or PreparedStatement)를 만든다.
         PreparedStatement ps = c.prepareStatement(
@@ -32,7 +32,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from users where id = ?"

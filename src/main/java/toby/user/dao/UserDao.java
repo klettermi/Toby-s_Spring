@@ -4,7 +4,7 @@ import toby.user.domain.User;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = getConnection();
 
@@ -47,15 +47,10 @@ public class UserDao {
         return user;
     }
 
-    private Connection getConnection() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/springbook","root", "Cjssus97!!");
-        return c;
-    }
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao dao = new UserDao();
+        UserDao dao = new NUserDao();
 
         User user = new User();
         user.setId("whiteship");
@@ -73,3 +68,4 @@ public class UserDao {
         System.out.println(user2.getId() + " 조회 성공");
     }
 }
+

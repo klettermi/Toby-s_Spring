@@ -33,7 +33,7 @@ public class UserDao {
         c.close();;
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
+    public User get(String id) throws SQLException {
         Connection c = dataSource.getConnection();
 
         PreparedStatement ps = c.prepareStatement(
@@ -42,7 +42,7 @@ public class UserDao {
         ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
-        rs.next();
+
         User user = null;
         if(rs.next()){
             user = new User();

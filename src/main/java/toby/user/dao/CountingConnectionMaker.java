@@ -1,18 +1,20 @@
 package toby.user.dao;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class CountingConnectionMaker implements ConnectionMaker{
     int counter = 0;
-    private ConnectionMaker realConnectionMaker;
+    private DataSource dataSource;
 
-    public CountingConnectionMaker(ConnectionMaker realConnectionMaker) {
-        this.realConnectionMaker = realConnectionMaker;
+    public CountingConnectionMaker(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
+
     public Connection makeConnection() throws ClassNotFoundException, SQLException{
         this.counter++;
-        return realConnectionMaker.makeConnection();
+        return dataSource.getConnection();
     }
 
     public int getCounter() {

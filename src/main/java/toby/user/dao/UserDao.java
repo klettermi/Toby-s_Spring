@@ -8,6 +8,7 @@ import toby.user.domain.User;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
 public class UserDao {
     private DataSource dataSource;
@@ -42,10 +43,22 @@ public class UserDao {
         this.jdbcTemplate.update("delete from users");
     }
 
-
-
     public Integer getCount() throws SQLException {
         return this.jdbcTemplate.queryForObject("select count(*) from users", Integer.class);
+    }
+
+    public List<User> getAll(){
+        return this.jdbcTemplate.query("select * from users order by id",
+                new RowMapper<User>() {
+                    @Override
+                    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        User user = new User();
+                        user.setId(rs.getString("id"));
+                        user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                        return user;
+                    }
+                });
     }
 }
 

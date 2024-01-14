@@ -59,16 +59,20 @@ public class UserService {
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition()); // 트랜잭션 시작
 
         try{
-            List<User> users = userDao.getAll();
-            for(User user : users){
-                if(canUpgradeLevel(user)){
-                    upgradeLevel(user);
-                }
-            }
+            upgradeLevelsInternal();
             this.transactionManager.commit(status);
         }catch (Exception e){
             this.transactionManager.rollback(status);
             throw e;
+        }
+    }
+
+    public void upgradeLevelsInternal(){
+        List<User> users = userDao.getAll();
+        for(User user : users){
+            if(canUpgradeLevel(user)){
+                upgradeLevel(user);
+            }
         }
     }
 

@@ -38,8 +38,7 @@ public class UserService {
         userDao.add(user);
     }
 
-    public void upgradeLevels() throws Exception{
-        this.transactionManager = new DataSourceTransactionManager(dataSource); // JDBC 트랜잭션 추상 오브젝트 생성
+    public void upgradeLevels(){
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition()); // 트랜잭션 시작
 
         try{

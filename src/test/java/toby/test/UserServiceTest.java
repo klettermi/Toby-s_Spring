@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.PlatformTransactionManager;
 import toby.user.dao.UserDao;
 import toby.user.domain.Level;
 import toby.user.domain.User;
@@ -24,6 +25,9 @@ import static toby.user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "/applicationContext.xml")
 public class UserServiceTest {
+    @Autowired
+    PlatformTransactionManager transactionManager;
+
     @Autowired
     UserService userService;
 
@@ -100,6 +104,7 @@ public class UserServiceTest {
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
         testUserService.setDataSource(this.dataSource);
+        testUserService.setTransactionManager(transactionManager);
 
         userDao.deleteAll();
         for(User user : users) userDao.add(user);

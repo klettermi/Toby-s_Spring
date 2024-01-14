@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -36,6 +37,9 @@ public class UserServiceTest {
 
     @Autowired
     DataSource dataSource;
+
+    @Autowired
+    MailSender mailSender;
 
     List<User> users;
 
@@ -105,6 +109,7 @@ public class UserServiceTest {
         testUserService.setUserDao(this.userDao);
         testUserService.setDataSource(this.dataSource);
         testUserService.setTransactionManager(transactionManager);
+        testUserService.setMailSender(mailSender);
 
         userDao.deleteAll();
         for(User user : users) userDao.add(user);
